@@ -55,8 +55,6 @@ export default class ClassesController {
       
     const { name, avatar_url, bio } = user.data;
 
-    console.log(name, avatar_url, bio)
-    
     const trx = await db.transaction();
   
     try {
@@ -100,5 +98,13 @@ export default class ClassesController {
         error: 'Unexpected error while creating new class'
       })
     }
+  }
+
+  async all(request: Request, response: Response) {
+    const classes = await db('classes')
+      .join('users', 'classes.user_id', '=', 'users.id')
+      .select(['classes.*', 'users.*']);;
+
+    return response.json(classes);
   }
 }

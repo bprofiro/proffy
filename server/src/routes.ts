@@ -10,16 +10,7 @@ const connectionsController = new ConnectionsController();
 
 routes.post('/classes', classesController.create);
 routes.get('/classes', classesController.index);
-
-routes.post('/dev', async (request, response) => {
-  const { github_username } = request.body;
-
-  const user = await axios.get(`https://api.github.com/users/${github_username}`);
-  
-  const { name, avatar_url, bio } = user.data;
-  console.log(name, avatar_url, bio)
-  return response.json({ message: 'oi'});
-});
+routes.get('/classes/all', classesController.all);
 
 routes.post('/connections', connectionsController.create);
 routes.get('/connections', connectionsController.index);
