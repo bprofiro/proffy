@@ -21,7 +21,7 @@ apenas uma linguagem: o JavaScript, além de serem extremamente modernas e poder
 ## Motivação social
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/59852846/89580506-cf288300-d80b-11ea-8cb9-cf296e2eebeb.gif"  height="500"/>
+  <img src="https://user-images.githubusercontent.com/59852846/89736484-1b5c0900-da40-11ea-92ef-5c55d2f1648a.gif"  height="500"/>
 </p>
 
   O Proffy é uma aplicação voltada para a conexão entre professores de programação (Principalmente do ecossistema JavaScript) e alunos que querem aprender. Uma funcionalidade a mais foi implementada nessa versão da aplicação proposta na NLW: o backend consome os dados da API do Github, portanto o usuário não precisará fornecer sua foto, seu nome ou uma bio, tudo será importado do seu Github e salvo no nosso banco de dados.
