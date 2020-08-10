@@ -1,13 +1,6 @@
 import { Request, Response } from "express";
 
-import db from '../database/connection';
-import convertHourToMinutes from "../utils/ConvertHourToMinutes";
-
-interface ScheduleItem {
-  week_day: number;
-  from: string;
-  to: string;
-}
+import db from '../../database/connection';
 
 export default class ConnectionsController {
   async index(request: Request, response: Response) {

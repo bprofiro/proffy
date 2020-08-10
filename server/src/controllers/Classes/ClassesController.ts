@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import axios from 'axios';
 
-import db from '../database/connection';
-import convertHourToMinutes from "../utils/ConvertHourToMinutes";
+import db from '../../database/connection';
+import convertHourToMinutes from "../../utils/ConvertHourToMinutes";
 
 interface ScheduleItem {
   week_day: number;
@@ -103,8 +103,26 @@ export default class ClassesController {
   async all(request: Request, response: Response) {
     const classes = await db('classes')
       .join('users', 'classes.user_id', '=', 'users.id')
-      .select(['classes.*', 'users.*']);;
+      .join('class_schedule', 'class_schedule.class_id', '=', 'classes.id')
+      .select(['classes.*', 'users.*', 'class_schedule.*']);;
 
     return response.json(classes);
+  }
+
+  async update(request: Request, response: Response) {
+    // Request do id da aula
+    // Request dos dados no body
+    // Verifica se há alguma aula com esses dados já cadastrado no banco
+    // Salva os dados novos no banco de dados
+    // Retorna uma mensagem de okay
+    // return response.status(200).json(updatedClass);
+  }
+
+  async delete(request: Request, response: Response) {
+    // Request do id da aula
+    // Verifica se há alguma aula com esses dados já cadastrado no banco
+    // Deleta essa aula do banco de dados
+    // Retorna uma mensagem de okay
+    // return response.status(200).send();
   }
 }
