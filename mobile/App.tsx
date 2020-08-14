@@ -7,6 +7,10 @@ import { Archivo_400Regular, Archivo_700Bold, useFonts } from '@expo-google-font
 import { Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 import AppStack from './src/routes/AppStack';
+import { NavigationContainer } from '@react-navigation/native';
+import { View } from 'react-native';
+import Routes from './src/routes';
+import AuthContext, { AuthProvider } from './src/contexts/auth';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -20,10 +24,15 @@ export default function App() {
     return <AppLoading />;
   } else {
     return (
-      <>
-        <AppStack />
-        <StatusBar style="light" />
-      </>
+      <NavigationContainer>
+          <AuthProvider>
+            <Routes />
+          </AuthProvider>
+      </NavigationContainer>
+      // <>
+      //   <AppStack />
+      //   <StatusBar style="light" />
+      // </>
     );
   }
 }
