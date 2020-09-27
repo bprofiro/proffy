@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import db from '../database/connection';
 import convertHourToMinutes from "../utils/ConvertHourToMinutes";
 import CreateClassesService from '../services/Classes/CreateClassesService';
+import ListAllClassesService from '../services/Classes/ListAllClassesService';
 
 
 export default class ClassesController {
@@ -53,9 +54,11 @@ export default class ClassesController {
   }
 
   async all(request: Request, response: Response) {
-    const classes = await db('classes')
-      .join('users', 'classes.user_id', '=', 'users.id')
-      .select(['classes.*', 'users.*']);;
+    const { id } = request.body;
+
+    const listClasses = new ListAllClassesService();
+
+    const classes = await listClasses.execute(id);
 
     return response.json(classes);
   }
