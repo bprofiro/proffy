@@ -1,4 +1,3 @@
-import axios from 'axios';
 import db from '../../database/connection';
 
 interface Class {
@@ -10,11 +9,6 @@ interface Class {
   avatar_url: string;
   whatsapp: string;
   bio: string;
-}
-interface Schedule {
-  weekDay: number;
-  from: string;
-  to: string;
 }
 
 class ListAllClassesService {

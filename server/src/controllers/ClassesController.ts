@@ -4,6 +4,7 @@ import db from '../database/connection';
 import convertHourToMinutes from "../utils/ConvertHourToMinutes";
 import CreateClassesService from '../services/Classes/CreateClassesService';
 import ListAllClassesService from '../services/Classes/ListAllClassesService';
+import FilterClassesService from "../services/Classes/FilterClassesService";
 
 
 export default class ClassesController {
@@ -11,7 +12,7 @@ export default class ClassesController {
     const filters = request.query;
 
     const subject = filters.subject as string;
-    const week_day = filters.week_day as string;
+    const weekDay = filters.week_day as string;
     const time = filters.time as string;
 
     if (!filters.week_day || !filters.subject || !filters.time) {
@@ -20,20 +21,9 @@ export default class ClassesController {
       })
     }
 
-    const timeInMinutes = convertHourToMinutes(time);
+    const filterClasses = new FilterClassesService();
 
-    const classes = await db('classes')
-      .whereExists(function() {
-        this.select('class_schedule.*')
-        .from('class_schedule')
-        .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
-        .whereRaw('`class_schedule`.`week_day` = ??', [Number(week_day)])
-        .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
-        .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes])
-      })
-      .where('classes.subject', '=', subject)
-      .join('users', 'classes.user_id', '=', 'users.id')
-      .select(['classes.*', 'users.*']);
+    const classes = await filterClasses.execute({ subject, time, weekDay });
 
     return response.json(classes);
   }
