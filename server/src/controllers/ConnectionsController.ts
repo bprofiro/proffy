@@ -2,12 +2,13 @@ import { Request, Response } from "express";
 
 import db from '../database/connection';
 import CreateConnectionService from "../services/Connections/CreateConnectionService";
+import ShowTotalOfConnectionsService from "../services/Connections/ShowTotalOfConnectionsServices";
 
 export default class ConnectionsController {
   async index(request: Request, response: Response) {
-    const totalConnecttions = await db('connections').count('* as total');
+    const showTotalOfConnections = new ShowTotalOfConnectionsService();
 
-    const { total } = totalConnecttions[0];
+    const total = await showTotalOfConnections.execute();
 
     return response.json({ total });
   }
