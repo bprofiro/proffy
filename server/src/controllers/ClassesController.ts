@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 
 import CreateClassesService from '../services/Classes/CreateClassesService';
-import ListAllClassesService from '../services/Classes/ListAllClassesService';
-import FilterClassesService from "../services/Classes/FilterClassesService";
+import ListAllClassesService from '../services/Classes/ShowAllClassesService';
+import FilterClassesService from "../services/Classes/ShowFilteredClassesService";
 
 
 export default class ClassesController {

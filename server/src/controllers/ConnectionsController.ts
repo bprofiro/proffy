@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 
-import db from '../database/connection';
 import CreateConnectionService from "../services/Connections/CreateConnectionService";
 import ShowTotalOfConnectionsService from "../services/Connections/ShowTotalOfConnectionsServices";
 
