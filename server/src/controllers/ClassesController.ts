@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 
-import db from '../database/connection';
-import convertHourToMinutes from "../utils/ConvertHourToMinutes";
 import CreateClassesService from '../services/Classes/CreateClassesService';
 import ListAllClassesService from '../services/Classes/ListAllClassesService';
 import FilterClassesService from "../services/Classes/FilterClassesService";

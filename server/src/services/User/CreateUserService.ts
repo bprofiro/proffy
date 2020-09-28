@@ -10,8 +10,8 @@ interface User {
 }
 
 interface RequestDTO {
-  github_username: string,
-  whatsapp: string,
+  github_username: string;
+  whatsapp: string;
 }
 
 class CreateUserService {
@@ -22,28 +22,26 @@ class CreateUserService {
 
     const trx = await db.transaction();
 
+    const insertedUser = await trx('users').insert({
+      name,
+      github_username,
+      avatar_url,
+      whatsapp,
+      bio
+    });
 
+    const newUser = {
+      user_id: insertedUser[0],
+      name,
+      github_username,
+      avatar_url,
+      whatsapp,
+      bio
+    };
 
-      const insertedUser = await trx('users').insert({
-        name,
-        github_username,
-        avatar_url,
-        whatsapp,
-        bio
-      });
+    await trx.commit();
 
-      const newUser = {
-        user_id: insertedUser[0],
-        name,
-        github_username,
-        avatar_url,
-        whatsapp,
-        bio
-      };
-
-      await trx.commit();
-
-      return newUser;
+    return newUser;
   }
 }
 
