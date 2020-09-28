@@ -1,19 +1,14 @@
 import { Request, Response } from "express";
 
 import db from '../database/connection';
-import convertHourToMinutes from "../utils/ConvertHourToMinutes";
-
-interface ScheduleItem {
-  week_day: number;
-  from: string;
-  to: string;
-}
+import CreateConnectionService from "../services/Connections/CreateConnectionService";
+import ShowTotalOfConnectionsService from "../services/Connections/ShowTotalOfConnectionsServices";
 
 export default class ConnectionsController {
   async index(request: Request, response: Response) {
-    const totalConnecttions = await db('connections').count('* as total');
+    const showTotalOfConnections = new ShowTotalOfConnectionsService();
 
-    const { total } = totalConnecttions[0];
+    const total = await showTotalOfConnections.execute();
 
     return response.json({ total });
   }
@@ -21,9 +16,9 @@ export default class ConnectionsController {
   async create(request: Request, response: Response) {
     const { user_id } = request.body;
 
-    await db('connections').insert({
-      user_id,
-    });
+    const createConnection = new CreateConnectionService();
+
+    createConnection.execute(user_id);
 
     return response.status(201).send();
   }
