@@ -14,9 +14,9 @@ interface Class {
 class ListAllClassesService {
   public async execute(id: number): Promise<Class[] | void> {
     const classes = await db('classes')
-    .join('users', 'classes.user_id', '=', 'users.id')
-    .select(['classes.*', 'users.*'])
-    .where('classes.user_id', '<>', id);
+      .join('users', 'classes.user_id', '=', 'users.id')
+      .select(['classes.*', 'users.*'])
+      .where('classes.user_id', '<>', id);
 
     return classes;
   }

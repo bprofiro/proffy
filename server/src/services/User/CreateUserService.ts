@@ -1,5 +1,6 @@
 import axios from 'axios';
 import db from '../../database/connection';
+import UsersRepository from '../../repositories/UsersRepository';
 
 interface User {
   name: string,
@@ -15,33 +16,22 @@ interface RequestDTO {
 }
 
 class CreateUserService {
+  private usersRepository: UsersRepository;
+
+  constructor(UsersRepository: UsersRepository) {
+    this.usersRepository = UsersRepository;
+  }
+
   public async execute({ github_username, whatsapp }: RequestDTO): Promise<User | void> {
-    const userFromGithub = await axios.get(`https://api.github.com/users/${github_username}`);
+    const checkSameGithub = await this.usersRepository.findByGithub(github_username);
 
-    const { name, avatar_url, bio } = userFromGithub.data;
-
-    const trx = await db.transaction();
-
-    const insertedUser = await trx('users').insert({
-      name,
-      github_username,
-      avatar_url,
-      whatsapp,
-      bio
-    });
-
-    const newUser = {
-      user_id: insertedUser[0],
-      name,
-      github_username,
-      avatar_url,
-      whatsapp,
-      bio
+    if (checkSameGithub) {
+      throw new Error('This user is already registered.');
     };
 
-    await trx.commit();
+    const user = await this.usersRepository.create({ github_username, whatsapp });
 
-    return newUser;
+    return user;
   }
 }
 
